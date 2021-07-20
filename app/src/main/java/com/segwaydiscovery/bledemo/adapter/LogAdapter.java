@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sd.blecontrol.interfaces.LogType;
 import com.segwaydiscovery.bledemo.R;
-import com.segwaydiscovery.bledemo.bean.Log;
+import com.segwaydiscovery.bledemo.bean.IoTLog;
 import com.segwaydiscovery.bledemo.enumation.LogEnum;
 import com.segwaydiscovery.bledemo.util.LogUtil;
 
@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
  * @version 2.0
  * @since 2021/1/27 11:20 AM
  */
-public class LogAdapter extends BaseAdapter<Log, LogAdapter.ViewHolder> {
+public class LogAdapter extends BaseAdapter<IoTLog, LogAdapter.ViewHolder> {
 
     private Context context;
 
@@ -45,9 +45,9 @@ public class LogAdapter extends BaseAdapter<Log, LogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Log log = getItem(position);
+        IoTLog ioTLog = getItem(position);
 
-        if (log.getType() == LogEnum.LOG_TYPE_DESCRIPTION.getType()) {
+        if (ioTLog.getType() == LogEnum.LOG_TYPE_DESCRIPTION.getType()) {
             holder.tvLog.setVisibility(View.GONE);
             holder.llCommandParse.setVisibility(View.VISIBLE);
 
@@ -56,7 +56,7 @@ public class LogAdapter extends BaseAdapter<Log, LogAdapter.ViewHolder> {
             holder.rvCommandParse.setLayoutManager(layoutManager);
             commandParseAdapter = new CommandParseAdapter();
             holder.rvCommandParse.setAdapter(commandParseAdapter);
-            commandParseAdapter.setItems(log.getCommandParseList());
+            commandParseAdapter.setItems(ioTLog.getCommandParseList());
 
         } else {
             holder.tvLog.setVisibility(View.VISIBLE);
@@ -64,8 +64,8 @@ public class LogAdapter extends BaseAdapter<Log, LogAdapter.ViewHolder> {
 
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("[HH:mm:ss] ");
-            holder.tvLog.setText(simpleDateFormat.format(log.getDate()) + LogEnum.getEnum(log.getType()).getTag() + " " + (log.getType() == LogType.LOG_TYPE_APP_TO_IOT || log.getType() == LogType.LOG_TYPE_IOT_TO_APP ? LogUtil.format16(getItem(position).getContent()) : getItem(position).getContent()));
-            holder.tvLog.setTextColor(context.getColor(LogEnum.getEnum(log.getType()).getTextColor()));
+            holder.tvLog.setText(simpleDateFormat.format(ioTLog.getDate()) + LogEnum.getEnum(ioTLog.getType()).getTag() + " " + (ioTLog.getType() == LogType.LOG_TYPE_APP_TO_IOT || ioTLog.getType() == LogType.LOG_TYPE_IOT_TO_APP ? LogUtil.format16(getItem(position).getContent()) : getItem(position).getContent()));
+            holder.tvLog.setTextColor(context.getColor(LogEnum.getEnum(ioTLog.getType()).getTextColor()));
         }
 
 

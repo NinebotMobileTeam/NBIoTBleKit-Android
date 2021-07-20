@@ -2,7 +2,8 @@ package com.segwaydiscovery.bledemo.util;
 
 import android.text.TextUtils;
 
-import com.segwaydiscovery.bledemo.bean.Log;
+import com.sd.blecontrol.bean.BleLog;
+import com.segwaydiscovery.bledemo.bean.IoTLog;
 
 /**
  * description 日志处理工具
@@ -20,8 +21,8 @@ public class LogUtil {
         return content.toUpperCase().replaceAll("(.{2})", "$1 ");
     }
 
-    public static Log conversion(com.sd.blecontrol.bean.Log log) {
-        return new Log(log.getType(), log.getContent());
+    public static IoTLog conversion(BleLog log) {
+        return new IoTLog(log.getType(), log.getContent());
     }
 
 }

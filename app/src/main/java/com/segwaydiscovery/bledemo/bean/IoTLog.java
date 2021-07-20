@@ -1,5 +1,7 @@
 package com.segwaydiscovery.bledemo.bean;
 
+import com.sd.blecontrol.bean.BleLog;
+
 import java.util.List;
 
 /**
@@ -9,15 +11,15 @@ import java.util.List;
  * @version 2.0
  * @since 2021/5/25 10:42 AM
  */
-public class Log extends com.sd.blecontrol.bean.Log {
+public class IoTLog extends BleLog {
 
     private List<CommandParse> commandParseList;
 
-    public Log(int type, String content) {
+    public IoTLog(int type, String content) {
         super(type, content);
     }
 
-    public Log(int type, List<CommandParse> commandParseList) {
+    public IoTLog(int type, List<CommandParse> commandParseList) {
         super(type);
         this.commandParseList = commandParseList;
     }

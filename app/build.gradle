@@ -20,6 +20,10 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a","x86"
+        }
     }
 
     buildTypes {
@@ -41,6 +45,12 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 

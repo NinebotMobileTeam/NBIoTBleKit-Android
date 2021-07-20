@@ -30,8 +30,7 @@ import com.segwaydiscovery.bledemo.Constants;
 import com.segwaydiscovery.bledemo.R;
 import com.segwaydiscovery.bledemo.adapter.LogAdapter;
 import com.segwaydiscovery.bledemo.bean.FirmwareBean;
-import com.segwaydiscovery.bledemo.bean.IoT;
-import com.segwaydiscovery.bledemo.bean.Log;
+import com.segwaydiscovery.bledemo.bean.IoTLog;
 import com.segwaydiscovery.bledemo.dialog.CommandDialog;
 import com.segwaydiscovery.bledemo.util.PreferencesUtil;
 
@@ -40,7 +39,6 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -96,7 +94,7 @@ public class ControlActivity extends BaseActivity {
 
         logAdapter = new LogAdapter(this);
         rvLog.setAdapter(logAdapter);
-        logAdapter.setItems(Collections.singletonList(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "Connecting...")));
+        logAdapter.setItems(Collections.singletonList(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "Connecting...")));
     }
 
     private void hideStatusbar() {
@@ -115,13 +113,13 @@ public class ControlActivity extends BaseActivity {
             public void onConnectionStateChange(int state) {
                 switch (state) {
                     case ConnectionState.STATE_CONNECTED:
-                        addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "Connected!"));
+                        addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "Connected!"));
                         break;
                     case ConnectionState.STATE_DISCONNECTED:
-                        addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "Disconnected!"));
+                        addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "Disconnected!"));
                         break;
                     default:
-                        addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "ConnectFailed!"));
+                        addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "ConnectFailed!"));
 
                 }
             }
@@ -137,11 +135,11 @@ public class ControlActivity extends BaseActivity {
         }
     }
 
-    private void addNormalLog(Log log) {
+    private void addNormalLog(IoTLog ioTLog) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                logAdapter.addItems(Collections.singletonList(log));
+                logAdapter.addItems(Collections.singletonList(ioTLog));
                 logLayoutmanager.scrollToPositionWithOffset(logAdapter.getItemCount() - 1, Integer.MIN_VALUE);
 
             }
@@ -158,13 +156,13 @@ public class ControlActivity extends BaseActivity {
                             bluetoothControl.unLock(new OnUnlockListener() {
                                 @Override
                                 public void onUnlockSuccess() {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockSuccess!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockSuccess!"));
 
                                 }
 
                                 @Override
                                 public void onUnlockFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockFail!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockFail--" + code + "--" + msg));
 
                                 }
                             });
@@ -174,12 +172,12 @@ public class ControlActivity extends BaseActivity {
                             bluetoothControl.lock(new OnLockListener() {
                                 @Override
                                 public void onLockSuccess() {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockSuccess!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockSuccess!"));
                                 }
 
                                 @Override
                                 public void onLockFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockFail!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockFail!--" + code + "--" + msg));
 
                                 }
                             });
@@ -188,7 +186,7 @@ public class ControlActivity extends BaseActivity {
                             bluetoothControl.queryIoTInformation(new OnQueryIoTInfoListener() {
                                 @Override
                                 public void onQueryIoTInfoSuccess(QueryIoTInfomation queryIoTInfomation) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "锁信息---onLockMsgSuccess: "
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "锁信息---onLockMsgSuccess: "
                                             + "高电压-" + queryIoTInfomation.getHighBatteryVoltage()
                                             + "  低电压-" + queryIoTInfomation.getLowBatteryVoltage()
                                             + "  开/关锁-" + queryIoTInfomation.getPowerStatus()
@@ -200,7 +198,7 @@ public class ControlActivity extends BaseActivity {
 
                                 @Override
                                 public void onQueryIoTInfoFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryIoTInfoFail!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryIoTInfoFail!--" + code + "--" + msg));
 
                                 }
                             });
@@ -208,8 +206,8 @@ public class ControlActivity extends BaseActivity {
                         case 4:
                             bluetoothControl.queryVehicleInformation(new OnQueryVehicleInfoListener() {
                                 @Override
-                                public void onOnQueryVehicleInfoSuccess(QueryVehicleInformation queryVehicleInformation) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "滑板车信息---onScooterMsgSuccess: 成功---"
+                                public void onQueryVehicleInfoSuccess(QueryVehicleInformation queryVehicleInformation) {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "滑板车信息---onScooterMsgSuccess: 成功---"
                                             + "当前电量-" + queryVehicleInformation.getCurrentBatteryLevel()
                                             + "  模式-" + queryVehicleInformation.getCurrentMode()
                                             + "  车速-" + queryVehicleInformation.getCurrentSpeed()
@@ -218,8 +216,8 @@ public class ControlActivity extends BaseActivity {
                                 }
 
                                 @Override
-                                public void onOnQueryVehicleInfoFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onOnQueryVehicleInfoFail!"));
+                                public void onQueryVehicleInfoFail(int code, String msg) {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onOnQueryVehicleInfoFail!--" + code + "--" + msg));
 
                                 }
                             });
@@ -228,13 +226,13 @@ public class ControlActivity extends BaseActivity {
                             bluetoothControl.openBatteryCover(new OnOpenBatteryCoverListener() {
                                 @Override
                                 public void OnOpenBatteryCoverSuccess() {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverSuccess!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverSuccess!"));
 
                                 }
 
                                 @Override
                                 public void OnOpenBatteryCoverFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverFail!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverFail!--" + code + "--" + msg));
 
                                 }
                             });
@@ -243,12 +241,12 @@ public class ControlActivity extends BaseActivity {
                             bluetoothControl.openSaddle(new OnOpenSaddleListener() {
                                 @Override
                                 public void onOpenSaddleSuccess() {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
                                 }
 
                                 @Override
                                 public void onOpenSaddleFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
 
                                 }
                             });
@@ -257,12 +255,12 @@ public class ControlActivity extends BaseActivity {
                             bluetoothControl.openTailBox(new OnOpenTailBoxListener() {
                                 @Override
                                 public void onOpenTailBoxSuccess() {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
                                 }
 
                                 @Override
                                 public void onOpenTailBoxFail(int code, String msg) {
-                                    addNormalLog(new Log(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!"));
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
 
                                 }
                             });

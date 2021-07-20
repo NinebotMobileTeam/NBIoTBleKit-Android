@@ -1,6 +1,6 @@
 package com.segwaydiscovery.bledemo.filter;
 
-import com.sd.blecontrol.bean.Log;
+import com.sd.blecontrol.bean.BleLog;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class LogTypeFilter implements ILogFilter {
 
     @Override
-    public List<Log> filter(List<Log> logList) {
+    public List<BleLog> filter(List<BleLog> logList) {
         return null;
     }
 }
