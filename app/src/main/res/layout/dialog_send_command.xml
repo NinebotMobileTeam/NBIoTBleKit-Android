@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorFFF"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:text="Transfer data"
+        android:textColor="@color/colorB1D"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:textSize="12sp"
+        android:layout_marginEnd="30dp"
+        android:text="Quick commands(0xdc)"
+        android:textColor="@color/colorB1D"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <TextView
+            android:id="@+id/tv_command_help"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/shape_63d_corners_8"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="help"
+            android:textColor="@color/colorFFF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_command_lognm"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginBottom="4dp"
+            android:background="@drawable/shape_63d_corners_8"
+            android:layout_marginStart="10dp"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="log -n modem"
+            android:textColor="@color/colorFFF"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tv_command_lognm_ecu"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/shape_63d_corners_8"
+            android:layout_marginStart="10dp"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="log -n modem,ecu"
+            android:layout_marginBottom="4dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/colorFFF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_command_wm"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/shape_63d_corners_8"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="wm"
+            android:textColor="@color/colorFFF"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_command_log_all"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/shape_63d_corners_8"
+        android:layout_marginTop="4dp"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:text="log -f all"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/colorFFF"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/et_command"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:elevation="5dp"
+        android:background="@drawable/shape_fff_corners_8"
+        android:padding="10dp"
+        android:hint="Input the data to be send"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:paddingStart="30dp"
+        android:gravity="center_vertical"
+        android:paddingEnd="30dp">
+
+        <Button
+            android:id="@+id/btn_left"
+            android:background="@drawable/shape_de7_corners_8"
+            android:layout_width="0.0dp"
+            android:text="Send by command(0xdc)"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:textColor="@color/colorFFF"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_right"
+            android:background="@drawable/shape_de7_corners_8"
+            android:text="Send by command(0xfb)"
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/colorFFF"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

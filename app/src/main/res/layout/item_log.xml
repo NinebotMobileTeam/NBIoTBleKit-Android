@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorCBC"
+        android:textIsSelectable="true"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:layout_width="0.0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/shape_ebe_stroke_b1d"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="Byte"
+                android:textColor="@color/colorB1D"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0.0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/shape_ebe_stroke_b1d"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="Parameter"
+                android:textColor="@color/colorB1D"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0.0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:background="@drawable/shape_ebe_stroke_b1d"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="Description"
+                android:textColor="@color/colorB1D"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0.0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@drawable/shape_ebe_stroke_b1d"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="Value"
+                android:textColor="@color/colorB1D"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_command_parse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
