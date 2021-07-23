@@ -1,6 +1,7 @@
 package com.segwaydiscovery.bledemo.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import com.segwaydiscovery.bledemo.ActivityRouter;
 import com.segwaydiscovery.bledemo.Constants;
 import com.segwaydiscovery.bledemo.R;
 import com.segwaydiscovery.bledemo.util.PreferencesUtil;
+import com.segwaydiscovery.nbiot.NBIotBle;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +28,10 @@ import butterknife.OnClick;
 @Route(path = ActivityRouter.PAGE_CONFIG)
 public class ConfigActivity extends BaseActivity {
 
-    @BindView(R.id.et_device_key)
-    EditText etDeviceKey;
+    @BindView(R.id.et_secret)
+    EditText etSecret;
+    @BindView(R.id.et_operator_code)
+    EditText etOperatorCode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,7 +45,6 @@ public class ConfigActivity extends BaseActivity {
     }
 
     private void initView() {
-        etDeviceKey.setText(PreferencesUtil.getString(Constants.Extra.DEVICE_KEY, "4BKNwi77"));
     }
 
     @OnClick(R.id.btn_back)
@@ -51,12 +54,20 @@ public class ConfigActivity extends BaseActivity {
 
     @OnClick(R.id.btn_save)
     protected void save() {
-        if (etDeviceKey.getText().toString().trim().length() != 8) {
-            Toast.makeText(this, "Wrong device key", Toast.LENGTH_SHORT).show();
+
+        if (TextUtils.isEmpty(etSecret.getText().toString().trim())) {
+            Toast.makeText(this, "Secret should not be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        PreferencesUtil.putString(Constants.Extra.DEVICE_KEY, etDeviceKey.getText().toString().trim());
-        finish();
+        if (TextUtils.isEmpty(etSecret.getText().toString().trim())) {
+            Toast.makeText(this, "OperatorCode should not be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        PreferencesUtil.putString(Constants.Extra.SECRET, etSecret.getText().toString().trim());
+        PreferencesUtil.putString(Constants.Extra.OPERATOR_CODE, etOperatorCode.getText().toString().trim());
+
+        NBIotBle.getInstance().init(etSecret.getText().toString().trim(), etOperatorCode.getText().toString().trim(), true);
     }
 }

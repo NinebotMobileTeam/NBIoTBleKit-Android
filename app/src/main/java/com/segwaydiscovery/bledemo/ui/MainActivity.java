@@ -12,9 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.sd.blecontrol.BluetoothKit;
-import com.sd.blecontrol.interfaces.ConnectionState;
-import com.sd.blecontrol.interfaces.OnConnectionStateChangeListener;
+import com.segwaydiscovery.nbiot.BluetoothKit;
+import com.segwaydiscovery.nbiot.interfaces.ConnectionState;
+import com.segwaydiscovery.nbiot.interfaces.OnConnectionStateChangeListener;
 import com.segwaydiscovery.bledemo.ActivityRouter;
 import com.segwaydiscovery.bledemo.Constants;
 import com.segwaydiscovery.bledemo.R;
@@ -27,24 +27,47 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.et_device_mac)
     EditText etDeviceMac;
+    @BindView(R.id.et_device_key)
+    EditText etDeviceKey;
+    @BindView(R.id.et_device_imei)
+    EditText etDeviceIMEI;
 
     private String deviceMac;
+    private String deviceKey;
+    private String deviceIMEI;
 
 
     @OnClick(R.id.btn_connect)
     public void connect() {
-        if (!TextUtils.isEmpty(deviceMac)) {
+
+        deviceMac = etDeviceMac.getText().toString().trim();
+        deviceKey = etDeviceKey.getText().toString().trim();
+        deviceIMEI = etDeviceIMEI.getText().toString().trim();
+        if (!TextUtils.isEmpty(deviceMac) && !TextUtils.isEmpty(deviceKey) && !TextUtils.isEmpty(deviceIMEI)) {
             ARouter.getInstance().build(ActivityRouter.PAGE_CONTROL)
                     .withString(Constants.Extra.DEVICE_MAC, deviceMac)
+                    .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                    .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
                     .navigation(MainActivity.this);
+        } else {
+            Toast.makeText(MainActivity.this, "deviceMac,deviceKey and IMEI can't be empty", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     @OnClick(R.id.btn_to_scan)
     public void toScan() {
-        ARouter.getInstance().build(ActivityRouter.PAGE_SCAN)
-                .navigation(MainActivity.this);
+        deviceKey = etDeviceKey.getText().toString().trim();
+        deviceIMEI = etDeviceIMEI.getText().toString().trim();
+        if (!TextUtils.isEmpty(deviceKey) && !TextUtils.isEmpty(deviceIMEI)) {
+            ARouter.getInstance().build(ActivityRouter.PAGE_SCAN)
+                    .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                    .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
+                    .navigation(MainActivity.this);
+        } else {
+            Toast.makeText(MainActivity.this, "IMEI can't be empty", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @OnClick(R.id.iv_config)
@@ -68,6 +91,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViews() {
+        deviceKey = "4BKNwi77";
         etDeviceMac.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -83,6 +107,42 @@ public class MainActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
                 if (!TextUtils.isEmpty(editable.toString())) {
                     deviceMac = editable.toString();
+                }
+            }
+        });
+        etDeviceKey.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable.toString())) {
+                    deviceKey = editable.toString();
+                }
+            }
+        });
+        etDeviceIMEI.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable.toString())) {
+                    deviceIMEI = editable.toString();
                 }
             }
         });

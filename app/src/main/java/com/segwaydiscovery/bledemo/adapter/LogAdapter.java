@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sd.blecontrol.interfaces.LogType;
+import com.segwaydiscovery.nbiot.interfaces.LogType;
 import com.segwaydiscovery.bledemo.R;
 import com.segwaydiscovery.bledemo.bean.IoTLog;
 import com.segwaydiscovery.bledemo.enumation.LogEnum;
@@ -24,9 +24,6 @@ import java.text.SimpleDateFormat;
 /**
  * description
  *
- * @author yaxin
- * @version 2.0
- * @since 2021/1/27 11:20 AM
  */
 public class LogAdapter extends BaseAdapter<IoTLog, LogAdapter.ViewHolder> {
 

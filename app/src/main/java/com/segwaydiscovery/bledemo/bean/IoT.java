@@ -1,15 +1,10 @@
 package com.segwaydiscovery.bledemo.bean;
 
-import com.segwaydiscovery.bledemo.enumation.IoTTypeEnum;
-
 import java.io.Serializable;
 
 /**
  * description IoT
  *
- * @author yaxin
- * @version 2.0
- * @since 2021/3/4 4:23 PM
  */
 public class IoT implements Serializable {
 
@@ -17,24 +12,15 @@ public class IoT implements Serializable {
 
     private String name;
 
-    private IoTTypeEnum ioTTypeEnum;
 
     public IoT() {
     }
 
-    public IoT(String mac, String name, IoTTypeEnum ioTTypeEnum) {
+    public IoT(String mac, String name) {
         this.mac = mac;
         this.name = name;
-        this.ioTTypeEnum = ioTTypeEnum;
     }
 
-    public IoTTypeEnum getIoTTypeEnum() {
-        return ioTTypeEnum;
-    }
-
-    public void setIoTTypeEnum(IoTTypeEnum ioTTypeEnum) {
-        this.ioTTypeEnum = ioTTypeEnum;
-    }
 
     public String getMac() {
         return mac;
@@ -57,7 +43,6 @@ public class IoT implements Serializable {
         return "IoT{" +
                 "mac='" + mac + '\'' +
                 ", name='" + name + '\'' +
-                ", ioTTypeEnum=" + ioTTypeEnum +
                 '}';
     }
 }

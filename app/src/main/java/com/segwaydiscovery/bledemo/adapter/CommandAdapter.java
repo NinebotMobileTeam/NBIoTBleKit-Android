@@ -14,10 +14,6 @@ import com.segwaydiscovery.bledemo.bean.Command;
 
 /**
  * description CommandAdapter
- *
- * @author yaxin
- * @version 2.0
- * @since 2021/4/14 5:36 PM
  */
 public class CommandAdapter extends BaseAdapter<Command, CommandAdapter.ViewHolder> {
 

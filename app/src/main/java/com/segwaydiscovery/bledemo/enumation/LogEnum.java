@@ -10,7 +10,7 @@ import com.segwaydiscovery.bledemo.R;
  * @since 2021/3/8 7:43 PM
  */
 public enum LogEnum {
-    LOG_TYPE_UNKNOW(0, "", R.color.color318),
+    LOG_TYPE_UNKNOWN(0, "", R.color.color318),
     LOG_TYPE_APP_TO_IOT(1, "[App->IoT]", R.color.colorDE7),
     LOG_TYPE_IOT_TO_APP(2, "[IoT->App]", R.color.color63D),
     LOG_TYPE_IOT_TO_NORMAL(3, "[Debug]", R.color.colorB1D),
@@ -35,7 +35,7 @@ public enum LogEnum {
                 return logEnum;
             }
         }
-        return LOG_TYPE_UNKNOW;
+        return LOG_TYPE_UNKNOWN;
     }
 
     public int getType() {

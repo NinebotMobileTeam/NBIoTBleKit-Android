@@ -12,10 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.sd.blecontrol.BluetoothKit;
-import com.sd.blecontrol.interfaces.OnDeviceFindListener;
+import com.segwaydiscovery.nbiot.BluetoothKit;
+import com.segwaydiscovery.nbiot.interfaces.OnDeviceFindListener;
 import com.segwaydiscovery.bledemo.ActivityRouter;
 import com.segwaydiscovery.bledemo.Constants;
 import com.segwaydiscovery.bledemo.R;
@@ -45,6 +46,11 @@ public class DeviceScanActivity extends BaseActivity {
 
     @BindView(R.id.iv_config)
     ImageView ivConfig;
+
+    @Autowired(name = Constants.Extra.DEVICE_KEY)
+    String deviceKey;
+    @Autowired(name = Constants.Extra.DEVICE_IMEI)
+    String deviceIMEI;
 
     BluetoothKit bluetoothKit;
 
@@ -78,6 +84,8 @@ public class DeviceScanActivity extends BaseActivity {
             public void onItemClick(int position) {
                 ARouter.getInstance().build(ActivityRouter.PAGE_CONTROL)
                         .withString(Constants.Extra.DEVICE_MAC, ioTListAdapter.getItem(position).getMac())
+                        .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                        .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
                         .navigation(DeviceScanActivity.this);
                 Log.d("IoT", ioTListAdapter.getItem(position).toString());
             }
@@ -93,7 +101,7 @@ public class DeviceScanActivity extends BaseActivity {
         bluetoothKit.scanDevice(new OnDeviceFindListener() {
             @Override
             public void onFindDevice(BluetoothDevice device) {
-                ioTListAdapter.addItems(Collections.singletonList(IoTUtil.creatIoT(device)));
+                ioTListAdapter.addItems(Collections.singletonList(IoTUtil.createIoT(device)));
             }
         });
     }

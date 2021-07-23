@@ -30,12 +30,12 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_back" />
 
     <TextView
-        android:id="@+id/tv_device_key_title"
+        android:id="@+id/tv_secret_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="30dp"
         android:paddingTop="20dp"
-        android:text="Default device key"
+        android:text="secret"
         android:textColor="@color/color49B1D"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <EditText
-        android:id="@+id/et_device_key"
+        android:id="@+id/et_secret"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="30dp"
@@ -56,7 +56,37 @@
         android:padding="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/tv_device_key_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_secret_title" />
+
+    <TextView
+        android:id="@+id/tv_operator_code_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingTop="20dp"
+        android:text="operator code"
+        android:textColor="@color/color49B1D"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_secret" />
+
+
+    <EditText
+        android:id="@+id/et_operator_code"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/shape_fff_corners_8"
+        android:elevation="3dp"
+        android:gravity="center_vertical"
+        android:maxLength="8"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/tv_operator_code_title" />
 
     <Button
         android:id="@+id/btn_save"
@@ -73,6 +103,6 @@
         android:textAllCaps="false"
         android:textColor="@color/colorFFF"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/et_device_key" />
+        app:layout_constraintTop_toBottomOf="@+id/et_operator_code" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

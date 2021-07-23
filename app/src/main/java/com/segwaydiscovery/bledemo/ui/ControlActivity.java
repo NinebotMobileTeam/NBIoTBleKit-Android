@@ -12,31 +12,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.sd.blecontrol.BluetoothKit;
-import com.sd.blecontrol.bean.QueryIoTInfomation;
-import com.sd.blecontrol.bean.QueryVehicleInformation;
-import com.sd.blecontrol.interfaces.ConnectionState;
-import com.sd.blecontrol.interfaces.LogType;
-import com.sd.blecontrol.interfaces.OnConnectionStateChangeListener;
-import com.sd.blecontrol.interfaces.OnLockListener;
-import com.sd.blecontrol.interfaces.OnOpenBatteryCoverListener;
-import com.sd.blecontrol.interfaces.OnOpenSaddleListener;
-import com.sd.blecontrol.interfaces.OnOpenTailBoxListener;
-import com.sd.blecontrol.interfaces.OnQueryIoTInfoListener;
-import com.sd.blecontrol.interfaces.OnQueryVehicleInfoListener;
-import com.sd.blecontrol.interfaces.OnUnlockListener;
+import com.segwaydiscovery.nbiot.BluetoothKit;
+import com.segwaydiscovery.nbiot.bean.QueryIoTInfomation;
+import com.segwaydiscovery.nbiot.bean.QueryVehicleInformation;
+import com.segwaydiscovery.nbiot.interfaces.ConnectionState;
+import com.segwaydiscovery.nbiot.interfaces.LogType;
+import com.segwaydiscovery.nbiot.interfaces.OnConnectionStateChangeListener;
+import com.segwaydiscovery.nbiot.interfaces.OnLockListener;
+import com.segwaydiscovery.nbiot.interfaces.OnOpenBatteryCoverListener;
+import com.segwaydiscovery.nbiot.interfaces.OnOpenSaddleListener;
+import com.segwaydiscovery.nbiot.interfaces.OnOpenTailBoxListener;
+import com.segwaydiscovery.nbiot.interfaces.OnQueryIoTInfoListener;
+import com.segwaydiscovery.nbiot.interfaces.OnQueryVehicleInfoListener;
+import com.segwaydiscovery.nbiot.interfaces.OnUnlockListener;
 import com.segwaydiscovery.bledemo.ActivityRouter;
 import com.segwaydiscovery.bledemo.Constants;
 import com.segwaydiscovery.bledemo.R;
 import com.segwaydiscovery.bledemo.adapter.LogAdapter;
-import com.segwaydiscovery.bledemo.bean.FirmwareBean;
 import com.segwaydiscovery.bledemo.bean.IoTLog;
 import com.segwaydiscovery.bledemo.dialog.CommandDialog;
 import com.segwaydiscovery.bledemo.util.PreferencesUtil;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,7 +49,11 @@ import butterknife.OnClick;
 public class ControlActivity extends BaseActivity {
 
     @Autowired(name = Constants.Extra.DEVICE_MAC)
-    String mac;
+    String deviceMac;
+    @Autowired(name = Constants.Extra.DEVICE_KEY)
+    String deviceKey;
+    @Autowired(name = Constants.Extra.DEVICE_IMEI)
+    String deviceIMEI;
 
     BluetoothKit bluetoothControl;
 
@@ -64,8 +65,7 @@ public class ControlActivity extends BaseActivity {
 
     private LogAdapter logAdapter;
 
-    private LinearLayoutManager logLayoutmanager;
-    private List<FirmwareBean> firmwareBeans = new ArrayList<>();
+    private LinearLayoutManager logLayoutManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,17 +80,17 @@ public class ControlActivity extends BaseActivity {
 
     private void initView() {
         hideStatusbar();
-        tvTitle.setText("IoT:" + mac);
+        tvTitle.setText("IoT:" + deviceMac);
         initRv();
         initBle();
     }
 
 
     private void initRv() {
-        logLayoutmanager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+        logLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
                 false);
-        logLayoutmanager.setStackFromEnd(true);
-        rvLog.setLayoutManager(logLayoutmanager);
+        logLayoutManager.setStackFromEnd(true);
+        rvLog.setLayoutManager(logLayoutManager);
 
         logAdapter = new LogAdapter(this);
         rvLog.setAdapter(logAdapter);
@@ -108,7 +108,7 @@ public class ControlActivity extends BaseActivity {
     private void initBle() {
         bluetoothControl = new BluetoothKit();
         bluetoothControl.init(this);
-        bluetoothControl.connect(mac, PreferencesUtil.getString(Constants.Extra.DEVICE_KEY, "4BKNwi77"), new OnConnectionStateChangeListener() {
+        bluetoothControl.connect(deviceMac, deviceKey, deviceIMEI, new OnConnectionStateChangeListener() {
             @Override
             public void onConnectionStateChange(int state) {
                 switch (state) {
@@ -120,12 +120,10 @@ public class ControlActivity extends BaseActivity {
                         break;
                     default:
                         addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "ConnectFailed!"));
-
                 }
             }
         });
     }
-
 
     @Override
     protected void onDestroy() {
@@ -140,135 +138,131 @@ public class ControlActivity extends BaseActivity {
             @Override
             public void run() {
                 logAdapter.addItems(Collections.singletonList(ioTLog));
-                logLayoutmanager.scrollToPositionWithOffset(logAdapter.getItemCount() - 1, Integer.MIN_VALUE);
+                logLayoutManager.scrollToPositionWithOffset(logAdapter.getItemCount() - 1, Integer.MIN_VALUE);
 
             }
         });
     }
 
     @OnClick(R.id.tv_command_dialog)
-    protected void command(View view) {
-        switch (view.getId()) {
-            case R.id.tv_command_dialog:
-                CommandDialog.create(this).setOnCommandDialogClickListener(command -> {
-                    switch (command.getCommand()) {
-                        case 1:
-                            bluetoothControl.unLock(new OnUnlockListener() {
-                                @Override
-                                public void onUnlockSuccess() {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockSuccess!"));
+    protected void command() {
+        CommandDialog.create(this).setOnCommandDialogClickListener(command -> {
+            switch (command.getCommand()) {
+                case 1:
+                    bluetoothControl.unLock(new OnUnlockListener() {
+                        @Override
+                        public void onUnlockSuccess() {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockSuccess!"));
 
-                                }
+                        }
 
-                                @Override
-                                public void onUnlockFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockFail--" + code + "--" + msg));
+                        @Override
+                        public void onUnlockFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockFail--" + code + "--" + msg));
 
-                                }
-                            });
+                        }
+                    });
 
-                            break;
-                        case 2:
-                            bluetoothControl.lock(new OnLockListener() {
-                                @Override
-                                public void onLockSuccess() {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockSuccess!"));
-                                }
+                    break;
+                case 2:
+                    bluetoothControl.lock(new OnLockListener() {
+                        @Override
+                        public void onLockSuccess() {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockSuccess!"));
+                        }
 
-                                @Override
-                                public void onLockFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockFail!--" + code + "--" + msg));
+                        @Override
+                        public void onLockFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockFail!--" + code + "--" + msg));
 
-                                }
-                            });
-                            break;
-                        case 3:
-                            bluetoothControl.queryIoTInformation(new OnQueryIoTInfoListener() {
-                                @Override
-                                public void onQueryIoTInfoSuccess(QueryIoTInfomation queryIoTInfomation) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "锁信息---onLockMsgSuccess: "
-                                            + "高电压-" + queryIoTInfomation.getHighBatteryVoltage()
-                                            + "  低电压-" + queryIoTInfomation.getLowBatteryVoltage()
-                                            + "  开/关锁-" + queryIoTInfomation.getPowerStatus()
-                                            + "  预留-" + queryIoTInfomation.getReserve()
-                                            + "  主版本-" + queryIoTInfomation.getMajorVersionNumber()
-                                            + "  次版本-" + queryIoTInfomation.getMinorVersionNumber()
-                                            + "  修改次数-" + queryIoTInfomation.getVersionRevisions()));
-                                }
+                        }
+                    });
+                    break;
+                case 3:
+                    bluetoothControl.queryIoTInformation(new OnQueryIoTInfoListener() {
+                        @Override
+                        public void onQueryIoTInfoSuccess(QueryIoTInfomation queryIoTInfomation) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "LockInfo---onLockMsgSuccess: "
+                                    + "highBatteryVoltage-" + queryIoTInfomation.getHighBatteryVoltage()
+                                    + "  lowBatteryVoltage-" + queryIoTInfomation.getLowBatteryVoltage()
+                                    + "  powerStatus-" + queryIoTInfomation.getPowerStatus()
+                                    + "  reserve-" + queryIoTInfomation.getReserve()
+                                    + "  majorVersionNumber-" + queryIoTInfomation.getMajorVersionNumber()
+                                    + "  minorVersionNumber-" + queryIoTInfomation.getMinorVersionNumber()
+                                    + "  versionRevisions-" + queryIoTInfomation.getVersionRevisions()));
+                        }
 
-                                @Override
-                                public void onQueryIoTInfoFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryIoTInfoFail!--" + code + "--" + msg));
+                        @Override
+                        public void onQueryIoTInfoFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryIoTInfoFail!--" + code + "--" + msg));
 
-                                }
-                            });
-                            break;
-                        case 4:
-                            bluetoothControl.queryVehicleInformation(new OnQueryVehicleInfoListener() {
-                                @Override
-                                public void onQueryVehicleInfoSuccess(QueryVehicleInformation queryVehicleInformation) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "滑板车信息---onScooterMsgSuccess: 成功---"
-                                            + "当前电量-" + queryVehicleInformation.getCurrentBatteryLevel()
-                                            + "  模式-" + queryVehicleInformation.getCurrentMode()
-                                            + "  车速-" + queryVehicleInformation.getCurrentSpeed()
-                                            + "  单次-" + queryVehicleInformation.getSingleMileage()
-                                            + "  续航-" + queryVehicleInformation.getRange()));
-                                }
+                        }
+                    });
+                    break;
+                case 4:
+                    bluetoothControl.queryVehicleInformation(new OnQueryVehicleInfoListener() {
+                        @Override
+                        public void onQueryVehicleInfoSuccess(QueryVehicleInformation queryVehicleInformation) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "VehicleInfo---onScooterMsgSuccess: 成功---"
+                                    + "versionRevisions-" + queryVehicleInformation.getCurrentBatteryLevel()
+                                    + "  currentMode-" + queryVehicleInformation.getCurrentMode()
+                                    + "  currentSpeed-" + queryVehicleInformation.getCurrentSpeed()
+                                    + "  singleMileage-" + queryVehicleInformation.getSingleMileage()
+                                    + "  range-" + queryVehicleInformation.getRange()));
+                        }
 
-                                @Override
-                                public void onQueryVehicleInfoFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onOnQueryVehicleInfoFail!--" + code + "--" + msg));
+                        @Override
+                        public void onQueryVehicleInfoFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onOnQueryVehicleInfoFail!--" + code + "--" + msg));
 
-                                }
-                            });
-                            break;
-                        case 5:
-                            bluetoothControl.openBatteryCover(new OnOpenBatteryCoverListener() {
-                                @Override
-                                public void OnOpenBatteryCoverSuccess() {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverSuccess!"));
+                        }
+                    });
+                    break;
+                case 5:
+                    bluetoothControl.openBatteryCover(new OnOpenBatteryCoverListener() {
+                        @Override
+                        public void OnOpenBatteryCoverSuccess() {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverSuccess!"));
 
-                                }
+                        }
 
-                                @Override
-                                public void OnOpenBatteryCoverFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverFail!--" + code + "--" + msg));
+                        @Override
+                        public void OnOpenBatteryCoverFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverFail!--" + code + "--" + msg));
 
-                                }
-                            });
-                            break;
-                        case 6:
-                            bluetoothControl.openSaddle(new OnOpenSaddleListener() {
-                                @Override
-                                public void onOpenSaddleSuccess() {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
-                                }
+                        }
+                    });
+                    break;
+                case 6:
+                    bluetoothControl.openSaddle(new OnOpenSaddleListener() {
+                        @Override
+                        public void onOpenSaddleSuccess() {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
+                        }
 
-                                @Override
-                                public void onOpenSaddleFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
+                        @Override
+                        public void onOpenSaddleFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
 
-                                }
-                            });
-                            break;
-                        case 7:
-                            bluetoothControl.openTailBox(new OnOpenTailBoxListener() {
-                                @Override
-                                public void onOpenTailBoxSuccess() {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
-                                }
+                        }
+                    });
+                    break;
+                case 7:
+                    bluetoothControl.openTailBox(new OnOpenTailBoxListener() {
+                        @Override
+                        public void onOpenTailBoxSuccess() {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlSuccess!"));
+                        }
 
-                                @Override
-                                public void onOpenTailBoxFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
+                        @Override
+                        public void onOpenTailBoxFail(int code, String msg) {
+                            addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
 
-                                }
-                            });
-                            break;
-                    }
-                }).show();
-                break;
-        }
+                        }
+                    });
+                    break;
+            }
+        }).show();
     }
 
 }

@@ -15,10 +15,6 @@ import com.segwaydiscovery.bledemo.bean.CommandParse;
 
 /**
  * description
- *
- * @author yaxin
- * @version 2.0
- * @since 2021/5/25 10:17 AM
  */
 public class CommandParseAdapter extends BaseAdapter<CommandParse, CommandParseAdapter.ViewHolder> {
 

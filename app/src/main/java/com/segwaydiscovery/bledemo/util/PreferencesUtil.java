@@ -7,7 +7,7 @@ import com.segwaydiscovery.bledemo.IoTManagerApplication;
 
 public class PreferencesUtil {
 
-    public static final String PREFERENCES = "IoTManager";
+    public static final String PREFERENCES = "NBBleSdk";
 
     private static SharedPreferences getSharedPreferences() {
         return IoTManagerApplication.getInstance().getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);

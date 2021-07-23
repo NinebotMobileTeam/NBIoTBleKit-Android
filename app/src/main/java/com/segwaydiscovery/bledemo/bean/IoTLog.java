@@ -1,6 +1,6 @@
 package com.segwaydiscovery.bledemo.bean;
 
-import com.sd.blecontrol.bean.BleLog;
+import com.segwaydiscovery.nbiot.bean.BleLog;
 
 import java.util.List;
 
