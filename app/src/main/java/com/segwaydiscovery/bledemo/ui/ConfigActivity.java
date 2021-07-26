@@ -45,6 +45,8 @@ public class ConfigActivity extends BaseActivity {
     }
 
     private void initView() {
+        etSecret.setText(PreferencesUtil.getString(Constants.Extra.SECRET, ""));
+        etOperatorCode.setText(PreferencesUtil.getString(Constants.Extra.OPERATOR_CODE, ""));
     }
 
     @OnClick(R.id.btn_back)
