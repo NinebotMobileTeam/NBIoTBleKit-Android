@@ -6,14 +6,6 @@
     android:gravity="end"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_config"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:src="@mipmap/ic_setting" />
-
     <TextView
         android:id="@+id/title_bar_text"
         android:layout_width="match_parent"

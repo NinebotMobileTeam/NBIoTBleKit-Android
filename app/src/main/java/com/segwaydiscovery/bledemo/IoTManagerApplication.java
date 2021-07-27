@@ -22,7 +22,6 @@ public class IoTManagerApplication extends Application {
         super.onCreate();
         instance = this;
         ARouter.init(this);
-        NBIotBle.getInstance().init("dc62c29c55f2445b8e3fe182b7727535", "P20001", true);
-//        NBIotBle.getInstance().init("replace your secret", "replace your operate code", true);
+        NBIotBle.getInstance().init("replace your secret", "replace your operate code", true);
     }
 }

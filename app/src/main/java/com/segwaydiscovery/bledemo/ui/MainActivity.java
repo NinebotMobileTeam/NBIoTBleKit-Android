@@ -65,15 +65,9 @@ public class MainActivity extends BaseActivity {
                     .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
                     .navigation(MainActivity.this);
         } else {
-            Toast.makeText(MainActivity.this, "IMEI can't be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "deviceKey，IMEI can't be empty", Toast.LENGTH_SHORT).show();
         }
 
-    }
-
-    @OnClick(R.id.iv_config)
-    protected void config() {
-        ARouter.getInstance().build(ActivityRouter.PAGE_CONFIG)
-                .navigation(MainActivity.this);
     }
 
     @SuppressLint("CheckResult")
@@ -91,7 +85,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initViews() {
-        deviceKey = "4BKNwi77";
         etDeviceMac.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

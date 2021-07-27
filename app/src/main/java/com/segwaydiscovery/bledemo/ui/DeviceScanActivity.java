@@ -44,9 +44,6 @@ public class DeviceScanActivity extends BaseActivity {
     @BindView(R.id.rv_device)
     RecyclerView rvDevice;
 
-    @BindView(R.id.iv_config)
-    ImageView ivConfig;
-
     @Autowired(name = Constants.Extra.DEVICE_KEY)
     String deviceKey;
     @Autowired(name = Constants.Extra.DEVICE_IMEI)
@@ -104,12 +101,6 @@ public class DeviceScanActivity extends BaseActivity {
                 ioTListAdapter.addItems(Collections.singletonList(IoTUtil.createIoT(device)));
             }
         });
-    }
-
-    @OnClick(R.id.iv_config)
-    protected void config() {
-        ARouter.getInstance().build(ActivityRouter.PAGE_CONFIG)
-                .navigation(DeviceScanActivity.this);
     }
 
     @Override

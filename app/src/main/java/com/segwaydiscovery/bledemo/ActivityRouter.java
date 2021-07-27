@@ -10,6 +10,5 @@ package com.segwaydiscovery.bledemo;
 public class ActivityRouter {
 
     public static final String PAGE_CONTROL = "/ble/control";
-    public static final String PAGE_CONFIG = "/ble/config";
     public static final String PAGE_SCAN = "/ble/scan";
 }

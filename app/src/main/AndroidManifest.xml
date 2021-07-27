@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ConfigActivity" />
         <activity android:name=".ui.ControlActivity" />
         <activity android:name=".ui.DeviceScanActivity" />
     </application>
