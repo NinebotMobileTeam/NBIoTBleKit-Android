@@ -5,6 +5,59 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFF">
 
+    <ImageView
+        android:id="@+id/iv_config"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="配置"
+        android:textColor="@color/colorB1D"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rg_iot_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+        <RadioButton
+            android:id="@+id/rb_iot"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_iot_type"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="IOT" />
+
+        <RadioButton
+            android:id="@+id/rb_helmet"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_iot_type"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Helmet" />
+
+
+    </RadioGroup>
+
     <TextView
         android:id="@+id/tv_device_mac"
         android:layout_width="match_parent"
@@ -16,19 +69,19 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_iot_type" />
 
     <EditText
         android:id="@+id/et_device_mac"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/shape_fff_corners_8"
         android:elevation="3dp"
         android:gravity="center_vertical"
+        android:minHeight="60dp"
         android:padding="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -51,13 +104,13 @@
         android:id="@+id/et_device_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/shape_fff_corners_8"
         android:elevation="3dp"
         android:gravity="center_vertical"
+        android:minHeight="60dp"
         android:padding="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -80,13 +133,13 @@
         android:id="@+id/et_device_imei"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/shape_fff_corners_8"
         android:elevation="3dp"
         android:gravity="center_vertical"
+        android:minHeight="60dp"
         android:padding="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -109,6 +162,14 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/et_device_imei" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="如果想通过扫描来获取设备mac地址，请点击这里⬇️"
+        app:layout_constraintBottom_toTopOf="@+id/btn_to_scan" />
+
     <Button
         android:id="@+id/btn_to_scan"
         android:layout_width="match_parent"
@@ -119,11 +180,11 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/shape_de7_corners_8"
+        android:background="@drawable/shape_gradient_orange"
         android:text="To Scan"
         android:textAllCaps="false"
         android:textColor="@color/colorFFF"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/btn_connect" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

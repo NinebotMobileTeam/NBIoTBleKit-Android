@@ -4,6 +4,7 @@ package com.segwaydiscovery.bledemo;
 import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.segwaydiscovery.bledemo.util.PreferencesUtil;
 import com.segwaydiscovery.nbiot.NBIotBle;
 
 /**

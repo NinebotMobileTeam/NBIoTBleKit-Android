@@ -13,11 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.segwaydiscovery.bledemo.Constants;
 import com.segwaydiscovery.bledemo.R;
 import com.segwaydiscovery.bledemo.adapter.BaseAdapter;
 import com.segwaydiscovery.bledemo.adapter.CommandAdapter;
 import com.segwaydiscovery.bledemo.bean.Command;
 import com.segwaydiscovery.bledemo.enumation.CommandEnum;
+import com.segwaydiscovery.bledemo.enumation.HelmetCommandEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ public class CommandDialog extends Dialog {
     private RecyclerView rvCommands;
     private CommandAdapter commandAdapter;
     private CommandDialogClickListener commandDialogClickListener;
+    private int deviceType;
 
     public CommandDialog(@NonNull Context context) {
         super(context, R.style.commonDialogStyle);
@@ -56,6 +59,10 @@ public class CommandDialog extends Dialog {
         return commandDialog;
     }
 
+    public CommandDialog setDeviceType(int deviceType) {
+        this.deviceType = deviceType;
+        return this;
+    }
 
     public CommandDialog setOnCommandDialogClickListener(CommandDialogClickListener commandDialogClickListener) {
         this.commandDialogClickListener = commandDialogClickListener;
@@ -106,9 +113,17 @@ public class CommandDialog extends Dialog {
 
     private void createCommandList() {
         List<Command> commandList = new ArrayList<>();
-        for (CommandEnum commandEnum : CommandEnum.values()) {
-            commandList.add(new Command(commandEnum.getCommand(), commandEnum.getDesc()));
+
+        if (deviceType == 1) {
+            for (CommandEnum commandEnum : CommandEnum.values()) {
+                commandList.add(new Command(commandEnum.getCommand(), commandEnum.getDesc()));
+            }
+        } else if (deviceType == 2) {
+            for (HelmetCommandEnum helmetCommandEnum : HelmetCommandEnum.values()) {
+                commandList.add(new Command(helmetCommandEnum.getCommand(), helmetCommandEnum.getDesc()));
+            }
         }
+
         commandAdapter.setItems(commandList);
     }
 }

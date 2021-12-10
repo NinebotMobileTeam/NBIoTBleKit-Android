@@ -8,7 +8,10 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -21,6 +24,7 @@ import com.segwaydiscovery.bledemo.R;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
@@ -31,43 +35,96 @@ public class MainActivity extends BaseActivity {
     EditText etDeviceKey;
     @BindView(R.id.et_device_imei)
     EditText etDeviceIMEI;
+    @BindView(R.id.tv_device_imei)
+    TextView tvDeviceIMEI;
 
     private String deviceMac;
     private String deviceKey;
     private String deviceIMEI;
 
+    private int deviceType = 1;//1 iot  2 helmet
 
     @OnClick(R.id.btn_connect)
     public void connect() {
-
         deviceMac = etDeviceMac.getText().toString().trim();
         deviceKey = etDeviceKey.getText().toString().trim();
         deviceIMEI = etDeviceIMEI.getText().toString().trim();
-        if (!TextUtils.isEmpty(deviceMac) && !TextUtils.isEmpty(deviceKey) && !TextUtils.isEmpty(deviceIMEI)) {
-            ARouter.getInstance().build(ActivityRouter.PAGE_CONTROL)
-                    .withString(Constants.Extra.DEVICE_MAC, deviceMac)
-                    .withString(Constants.Extra.DEVICE_KEY, deviceKey)
-                    .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
-                    .navigation(MainActivity.this);
-        } else {
-            Toast.makeText(MainActivity.this, "deviceMac,deviceKey and IMEI can't be empty", Toast.LENGTH_SHORT).show();
+        if (deviceType == 1) {
+            if (!TextUtils.isEmpty(deviceMac) && !TextUtils.isEmpty(deviceKey) && !TextUtils.isEmpty(deviceIMEI)) {
+                ARouter.getInstance().build(ActivityRouter.PAGE_CONTROL)
+                        .withString(Constants.Extra.DEVICE_MAC, deviceMac)
+                        .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                        .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
+                        .withInt(Constants.Extra.DEVICE_TYPE, deviceType)
+                        .navigation(MainActivity.this);
+            } else {
+                Toast.makeText(MainActivity.this, "deviceMac,deviceKey and IMEI can't be empty", Toast.LENGTH_SHORT).show();
+            }
+        } else if (deviceType == 2) {
+            if (!TextUtils.isEmpty(deviceMac) && !TextUtils.isEmpty(deviceKey)) {
+                ARouter.getInstance().build(ActivityRouter.PAGE_CONTROL)
+                        .withString(Constants.Extra.DEVICE_MAC, deviceMac)
+                        .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                        .withInt(Constants.Extra.DEVICE_TYPE, deviceType)
+                        .navigation(MainActivity.this);
+            } else {
+                Toast.makeText(MainActivity.this, "deviceMac and deviceKey can't be empty", Toast.LENGTH_SHORT).show();
+            }
+
         }
+
 
     }
 
     @OnClick(R.id.btn_to_scan)
     public void toScan() {
         deviceKey = etDeviceKey.getText().toString().trim();
-        deviceIMEI = etDeviceIMEI.getText().toString().trim();
-        if (!TextUtils.isEmpty(deviceKey) && !TextUtils.isEmpty(deviceIMEI)) {
-            ARouter.getInstance().build(ActivityRouter.PAGE_SCAN)
-                    .withString(Constants.Extra.DEVICE_KEY, deviceKey)
-                    .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
-                    .navigation(MainActivity.this);
+        if (deviceType == 1) {
+            deviceIMEI = etDeviceIMEI.getText().toString().trim();
+            if (!TextUtils.isEmpty(deviceKey) && !TextUtils.isEmpty(deviceIMEI)) {
+                ARouter.getInstance().build(ActivityRouter.PAGE_SCAN)
+                        .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                        .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
+                        .withInt(Constants.Extra.DEVICE_TYPE, deviceType)
+                        .navigation(MainActivity.this);
+            } else {
+                Toast.makeText(MainActivity.this, "deviceKey，IMEI can't be empty", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(MainActivity.this, "deviceKey，IMEI can't be empty", Toast.LENGTH_SHORT).show();
+            if (!TextUtils.isEmpty(deviceKey)) {
+                ARouter.getInstance().build(ActivityRouter.PAGE_SCAN)
+                        .withString(Constants.Extra.DEVICE_KEY, deviceKey)
+                        .withInt(Constants.Extra.DEVICE_TYPE, deviceType)
+                        .navigation(MainActivity.this);
+            } else {
+                Toast.makeText(MainActivity.this, "deviceKey can't be empty", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
 
+
+    @OnClick(R.id.iv_config)
+    protected void config() {
+        ARouter.getInstance().build(ActivityRouter.PAGE_CONFIG)
+                .navigation(MainActivity.this);
+    }
+
+    @OnCheckedChanged({R.id.rb_iot, R.id.rb_helmet})
+    public void OnCheckedChanged(CompoundButton button, boolean isChecked) {
+        if (isChecked) {
+            switch (button.getId()) {
+                case R.id.rb_iot:
+                    deviceType = 1;
+                    etDeviceIMEI.setVisibility(View.VISIBLE);
+                    tvDeviceIMEI.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.rb_helmet:
+                    etDeviceIMEI.setVisibility(View.GONE);
+                    tvDeviceIMEI.setVisibility(View.GONE);
+                    deviceType = 2;
+                    break;
+            }
+        }
     }
 
     @SuppressLint("CheckResult")

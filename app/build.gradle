@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 
-    implementation files('libs/sd_ble_sdk_v1.0.0.jar')
+    implementation files('libs/sd_ble_sdk_v1.1.0.jar')
 
 
 }

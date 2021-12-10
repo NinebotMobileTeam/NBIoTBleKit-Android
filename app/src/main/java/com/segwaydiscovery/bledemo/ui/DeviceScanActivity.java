@@ -48,6 +48,8 @@ public class DeviceScanActivity extends BaseActivity {
     String deviceKey;
     @Autowired(name = Constants.Extra.DEVICE_IMEI)
     String deviceIMEI;
+    @Autowired(name = Constants.Extra.DEVICE_TYPE)
+    int deviceType;
 
     BluetoothKit bluetoothKit;
 
@@ -83,6 +85,7 @@ public class DeviceScanActivity extends BaseActivity {
                         .withString(Constants.Extra.DEVICE_MAC, ioTListAdapter.getItem(position).getMac())
                         .withString(Constants.Extra.DEVICE_KEY, deviceKey)
                         .withString(Constants.Extra.DEVICE_IMEI, deviceIMEI)
+                        .withInt(Constants.Extra.DEVICE_TYPE, deviceType)
                         .navigation(DeviceScanActivity.this);
                 Log.d("IoT", ioTListAdapter.getItem(position).toString());
             }

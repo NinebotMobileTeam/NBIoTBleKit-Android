@@ -11,4 +11,6 @@ public class ActivityRouter {
 
     public static final String PAGE_CONTROL = "/ble/control";
     public static final String PAGE_SCAN = "/ble/scan";
+    public static final String PAGE_CONFIG = "/ble/config";
+
 }
