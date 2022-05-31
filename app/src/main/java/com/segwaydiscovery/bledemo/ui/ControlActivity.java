@@ -21,6 +21,7 @@ import com.segwaydiscovery.nbiot.bean.QueryVehicleInformation;
 import com.segwaydiscovery.nbiot.interfaces.ConnectionState;
 import com.segwaydiscovery.nbiot.interfaces.LogType;
 import com.segwaydiscovery.nbiot.interfaces.OnConnectionStateChangeListener;
+import com.segwaydiscovery.nbiot.interfaces.OnLockHelmetListener;
 import com.segwaydiscovery.nbiot.interfaces.OnLockListener;
 import com.segwaydiscovery.nbiot.interfaces.OnOpenBatteryCoverListener;
 import com.segwaydiscovery.nbiot.interfaces.OnOpenSaddleListener;
@@ -181,13 +182,11 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onUnlockSuccess() {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockSuccess!"));
-
                                 }
 
                                 @Override
                                 public void onUnlockFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnlockFail--" + code + "--" + msg));
-
                                 }
                             });
 
@@ -202,7 +201,6 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onLockFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockFail!--" + code + "--" + msg));
-
                                 }
                             });
                             break;
@@ -220,13 +218,11 @@ public class ControlActivity extends BaseActivity {
                                             + "  versionRevisions-" + queryIoTInfomation.getVersionRevisions()
                                             + "  voltage: " + queryIoTInfomation.getVoltage()
                                             + "  isLocked: " + queryIoTInfomation.isLocked()));
-
                                 }
 
                                 @Override
                                 public void onQueryIoTInfoFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryIoTInfoFail!--" + code + "--" + msg));
-
                                 }
                             });
                             break;
@@ -245,7 +241,6 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onQueryVehicleInfoFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onOnQueryVehicleInfoFail!--" + code + "--" + msg));
-
                                 }
                             });
                             break;
@@ -254,13 +249,11 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void OnOpenBatteryCoverSuccess() {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverSuccess!"));
-
                                 }
 
                                 @Override
                                 public void OnOpenBatteryCoverFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "OnUnlockBatteryCoverFail!--" + code + "--" + msg));
-
                                 }
                             });
                             break;
@@ -274,7 +267,6 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onOpenSaddleFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
-
                                 }
                             });
                             break;
@@ -288,10 +280,37 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onOpenTailBoxFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onMechLockControlFail!--" + code + "--" + msg));
-
                                 }
                             });
                             break;
+                        case 8:
+                            bluetoothControl.unLockHelmet(new OnUnlockHelmetListener() {
+                                @Override
+                                public void onUnlockHelmetSuccess() {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnLockHelmetSuccess!"));
+                                }
+
+                                @Override
+                                public void onUnlockHelmetFail(int code, String msg) {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnLockHelmetFail!--" + code + "--" + msg));
+                                }
+                            });
+                        case 9:
+                            bluetoothControl.lockHelmet(new OnLockHelmetListener() {
+                                @Override
+                                public void onLockHelmetSuccess() {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockHelmetSuccess!"));
+
+                                }
+
+                                @Override
+                                public void onLockHelmetFail(int code, String msg) {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockHelmetFail!--" + code + "--" + msg));
+
+                                }
+                            });
+
+
                         case -1:
                             helmetLockKit.unLock(new OnUnlockHelmetListener() {
                                 @Override
@@ -340,6 +359,21 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onQueryHelmetLockStatusFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryHelmetLockStatusFail!--code" + code + "msg--" + msg));
+
+                                }
+                            });
+                            break;
+                        case -4:
+                            helmetLockKit.lock(new OnLockHelmetListener() {
+                                @Override
+                                public void onLockHelmetSuccess() {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockHelmetSuccess!"));
+
+                                }
+
+                                @Override
+                                public void onLockHelmetFail(int code, String msg) {
+                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockHelmetFail!--code:" + code + ",msg:" + msg));
 
                                 }
                             });

@@ -15,7 +15,9 @@ public enum CommandEnum {
     FUNCTION_VEHICLE_INFO(4, "Query Vehicle Information"),
     FUNCTION_OPEN_BATTERY_COVER(5, "Unlock Battery Cover"),
     FUNCTION_OPEN_SADDLE(6, "Unlock sit barrels"),
-    FUNCTION_OPEN_TAIL_BOX(7, "Unlock tail box");
+    FUNCTION_OPEN_TAIL_BOX(7, "Unlock tail box"),
+    FUNCTION_UNLOCK_HELMET(8, "Unlock helmet"),
+    FUNCTION_LOCK_HELMET(9, "Lock helmet");
 
 
     private int command;
