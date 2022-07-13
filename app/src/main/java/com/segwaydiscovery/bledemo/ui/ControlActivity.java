@@ -295,6 +295,7 @@ public class ControlActivity extends BaseActivity {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onUnLockHelmetFail!--" + code + "--" + msg));
                                 }
                             });
+                            break;
                         case 9:
                             bluetoothControl.lockHelmet(new OnLockHelmetListener() {
                                 @Override
@@ -309,7 +310,7 @@ public class ControlActivity extends BaseActivity {
 
                                 }
                             });
-
+                            break;
 
                         case -1:
                             helmetLockKit.unLock(new OnUnlockHelmetListener() {
@@ -359,21 +360,6 @@ public class ControlActivity extends BaseActivity {
                                 @Override
                                 public void onQueryHelmetLockStatusFail(int code, String msg) {
                                     addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onQueryHelmetLockStatusFail!--code" + code + "msg--" + msg));
-
-                                }
-                            });
-                            break;
-                        case -4:
-                            helmetLockKit.lock(new OnLockHelmetListener() {
-                                @Override
-                                public void onLockHelmetSuccess() {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockHelmetSuccess!"));
-
-                                }
-
-                                @Override
-                                public void onLockHelmetFail(int code, String msg) {
-                                    addNormalLog(new IoTLog(LogType.LOG_TYPE_IOT_TO_NORMAL, "onLockHelmetFail!--code:" + code + ",msg:" + msg));
 
                                 }
                             });

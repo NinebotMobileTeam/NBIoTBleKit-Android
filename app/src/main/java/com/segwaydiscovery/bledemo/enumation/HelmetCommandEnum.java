@@ -11,8 +11,7 @@ public enum HelmetCommandEnum {
 
     FUNCTION_UNLOCK(-1, "Unlock"),
     FUNCTION_HELMET_LOCK_INFO(-2, "Query helmet Information"),
-    FUNCTION_VEHICLE_LOCK_STATUS(-3, "Query helmet status"),
-    FUNCTION_LOCK(-4, "lock");
+    FUNCTION_VEHICLE_LOCK_STATUS(-3, "Query helmet status");
 
     private int command;
 
